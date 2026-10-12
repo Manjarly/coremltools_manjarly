@@ -398,6 +398,16 @@ class RangeDim:
         symbol:
             Optional symbol name for the dim. Autogenerate a symbol name if not specified.
         """
+        if lower_bound < 0:
+            raise ValueError(
+                f"Lower bound ({lower_bound}) must be non-negative for range"
+            )
+
+        if upper_bound < -1 or upper_bound == 0:
+            raise ValueError(
+                f"Upper bound ({upper_bound}) must be -1 (unbounded) or a positive integer for range"
+            )
+
         if upper_bound > 0 and lower_bound > upper_bound:
             raise ValueError(
                 f"Lower bound {lower_bound} is greater than upper bound ({upper_bound}) for range"

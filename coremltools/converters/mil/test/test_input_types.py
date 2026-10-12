@@ -25,6 +25,18 @@ def test_rangedim_raises_if_lower_above_positive_finite_upper(default):
     with pytest.raises(ValueError, match=r"Lower bound.*greater than upper bound"):
         RangeDim(lower_bound=5, upper_bound=3, default=default)
 
+
+@pytest.mark.parametrize("lower_bound", [-1, -5, -100])
+def test_rangedim_raises_if_lower_bound_negative(lower_bound):
+    with pytest.raises(ValueError, match=r"Lower bound.*must be non-negative"):
+        RangeDim(lower_bound=lower_bound, upper_bound=10)
+
+
+@pytest.mark.parametrize("upper_bound", [0, -2, -5, -100])
+def test_rangedim_raises_if_upper_bound_invalid(upper_bound):
+    with pytest.raises(ValueError, match=r"Upper bound.*must be -1.*or a positive integer"):
+        RangeDim(lower_bound=1, upper_bound=upper_bound)
+
 @pytest.mark.parametrize(
     "lower_bound, upper_bound, default, expected_default",
     [
